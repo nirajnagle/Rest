@@ -102,7 +102,7 @@ public static void init() {
 		// link is valid when it starts with https:// also a null is acceptable.
 		//	Method fails becasue one line starts with just "/". 
 					  try {
-					assertThat(s, anyOf(startsWith("https://www.dropbox.com"),isEmptyOrNullString()));
+					assertThat(s, anyOf(startsWith("https://"),isEmptyOrNullString()));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
