@@ -193,6 +193,47 @@ public void SPL004() throws Exception{
 						
 }
 
+@Test
+public void SPL005() throws Exception{
+	List<String> title;
+			
+	title=given()
+		.spec(requestSpec)
+		.when()
+		.get("/movies")
+		.then()
+		.extract()
+		.path("results.title");
+	
+	//Convert List to String array and then split using white space so that we have each word separate.
+	String st= title.toString();			
+	String [] str_array=st.split("\\s+");
+
+	//Make a new array to store the values after reverse. 
+    String[] reverse = new String[str_array.length];
+    
+	for(int i=0;i<str_array.length;i++) {
+	      StringBuilder sb = new StringBuilder(str_array[i]);
+	      reverse [i]= sb.reverse().toString();   
+	}
+	
+	// Now compare two arrays and keep a count for palindrome.
+	int count =0;
+	for (int i = 0; i < str_array.length; i++) {
+		
+		for (int j = 0; j < reverse.length; j++) {
+			
+			if(str_array[i].equals(reverse[j])) {
+				count = count+1;
+			}	
+		}
+	}
+	//System.out.println(count);	
+	//Check the palindrome count is equal to 1 as per the document.
+	assertEquals(count, 1); 
+} 
+
+
 		
 		
 		
