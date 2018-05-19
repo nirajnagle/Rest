@@ -232,7 +232,41 @@ public void SPL005() throws Exception{
 	//Check the palindrome count is equal to 1 as per the document.
 	assertEquals(count, 1); 
 } 
+@Test
+public void SPL006() throws Exception{
+	List<String> title;
+			
+	title=given()
+		.spec(requestSpec)
+		.when()
+		.get("/movies")
+		.then()
+		.extract()
+		.path("results.title");
+	//System.out.println(title);
+	String st= title.toString();			
+	String [] str_array=st.replaceAll(":","").trim().split(",");
+	
+	int count =0;
+	for (int i = 0; i < str_array.length; i++) {
+		for (int j = i+1; j < str_array.length; j++) {
+			if(str_array[i].contains(str_array[j])) {
+				count= count+1;
+			}
+			
+		}
+		
+	}	
+	assertEquals(count,2 );
+	//System.out.println("The Count is" + count );
 
+}	
+@Test
+public void teardown() {
+	
+	
+	
+}
 
 		
 		
