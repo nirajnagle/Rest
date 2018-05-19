@@ -160,6 +160,38 @@ public void SP003() throws Exception  {
 				}
 			}			
 		}
+@Test
+public void SPL004() throws Exception{
+	ArrayList<ArrayList<Integer>> genre_id=new ArrayList<ArrayList<Integer>>();
+			
+	genre_id=given()
+		.spec(requestSpec)
+		.when()
+		.get("/movies")
+		.then()
+		.extract()
+		.path("results.genre_ids");
+//	System.out.println(genre_id);
+	// loooping through arraylist and adding the elements and making a check.
+     	int sum=0;
+     	int count=0;
+     	for (int i = 0; i < genre_id.size(); i++){
+     		
+     		sum=0;
+     		for(int j=0;j<genre_id.get(i).size();j++) {
+     			sum=sum+genre_id.get(i).get(j);
+     				         			
+     		}
+     		if (sum>400) {
+				 count=count+1;
+			 }	
+	}
+		//System.out.println(count);
+					
+		assertEquals(count, 7);
+
+						
+}
 
 		
 		
