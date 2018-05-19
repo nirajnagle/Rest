@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
   maven 
 
 RUN mvn -version
-RUN git clone https://github.com/nirajnagle/RestMovieApi.git
+RUN git clone https://github.com/nirajnagle/Rest.git
 CMD ls
 CMD ls
-RUN cd /RestMovieApi/MovieRestApi && mvn test
+RUN cd /Rest && mvn test
