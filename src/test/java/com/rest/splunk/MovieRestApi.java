@@ -3,6 +3,8 @@ package com.rest.splunk;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.testng.Assert.assertEquals;
@@ -42,8 +44,8 @@ public static void init() {
 //from the reposnse split the the string that contains .jpg 
 //Loop through them and Add them to list and set. Then Compare two objects using assertequals()	
 	//Our test returns passed if two Collections are not same 
-	@Test
-	public void SP001() throws Exception{
+@Test
+public void SP001() throws Exception{
 		final String SEPARATOR = ",";
 		List<String> poster_Name; 
 		poster_Name= given()
@@ -86,8 +88,8 @@ public static void init() {
 	}
 
 	//TestCase:SPL-002	// all poster path must be valid/null is acceptable
-		@Test
-		public void SP002() throws Exception  {
+@Test
+public void SP002() throws Exception  {
 			List<String> posterImage;
 	 
 			posterImage= given()
@@ -108,5 +110,61 @@ public static void init() {
 					}
 			
 		}
+		
+//TestCase:SPL-003
+@Test
+public void SP003() throws Exception  {
+			List<Integer> genre_id;
+			List <Integer>id;
+	 
+			genre_id= given()
+			.spec(requestSpec)
+			.when()
+			.get("/movies")
+			.then()
+			.extract()
+			.path("results.genre_ids");
+			
+			// exttract the id value now
+			id= given()
+					.spec(requestSpec)
+					.when()
+					.get("/movies")
+					.then()
+					.extract()
+					.path("results.id");
+			
+			
+			//covert genre_id to to string so that we can split it.
+			String str= genre_id.toString();
+			String []st = str.split(",");
+			
+			//covert id to to string so that we can split it.
+			String str_id=id.toString();
+			String [] st_id=str_id.split(",");
+			
+			//Store first two values of id and then compare if s2 is less than s1, if it is less then they are in ascending order.
+			String s1=st_id[0];
+			String s2=st_id[1];		
+			
+			//Loop through each element and check if it is null
+			//if null check first response i.e genre_id is null
+			for ( int i = 0; i <= st.length-1; i++) {
+				if (st[i]==null) {
+					assertThat(st[0], nullValue());
+					assertThat(s1, lessThan(s2));	
+				}
+				else {
+					assertThat(s1, lessThan(s2));	
+
+				}
+			}			
+		}
+
+		
+		
+		
+		
+		
 
 }
